@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="container">
+        <h1>Clientes</h1>
+        <ul>
+            {% for client in clients %}
+            <li>{{ client.name }} <span style="color:#4f8cff;">({{ client.email }})</span></li>
+            {% endfor %}
+        </ul>
+
+        <h1>Pedidos</h1>
+        <table>
+            <tr>
+                <th>Cliente</th>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.client.name }}</td>
+                <td>{{ order.product.name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>R$ {{ order.total_price|floatformat:2 }}</td>
+                <td>
+                    {% if order.status == 'Pendente' %}
+                        <span style="color:#ff9800;font-weight:600;">{{ order.status }}</span>
+                    {% elif order.status == 'Concluído' %}
+                        <span style="color:#4caf50;font-weight:600;">{{ order.status }}</span>
+                    {% else %}
+                        <span style="color:#607d8b;font-weight:600;">{{ order.status }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h1>Relatorio</h1>
+        <ul>
+            {% for t in totals %}
+            <li>
+                <strong>{{ t.client__name }}</strong>: 
+                <span style="color:#4f8cff;">R$ {{ t.total_spent|floatformat:2 }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
